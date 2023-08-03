@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Invoice extends Model
+class Product extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'invoices';
+    protected $table = 'products';
 
     /**
      * The primary key associated with the table.
@@ -19,9 +19,5 @@ class Invoice extends Model
      * @var integer
      */
     protected $primaryKey = 'id';
-
-    public function products() {
-        return $this->hasMany(Product::class, 'invoice_id', 'id');
-    }
 
 }

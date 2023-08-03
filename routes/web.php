@@ -18,4 +18,5 @@ Route::redirect('/', '/all_invoices');
 Route::get('/all_invoices', [FormController::class, 'allInvoices']);
 Route::match(['get', 'post'], '/form', [FormController::class, 'showForm']);
 Route::post('/send-email', [FormController::class, 'sendEmail']);
+Route::get('/invoice-pdf/{invoice}', [FormController::class, 'createPdf']);
 // Route::match(['get', 'post'], '/testForm', [FormController::class, 'testForm']);

@@ -27,14 +27,16 @@
             <table class="table" id="item-table">
                 <thead>
                     <tr>
-                        <th>Description</th>
+                        <th>Title</th>
+                        <th>Price</th>
                         <th>Amount</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><textarea class="w-75" name="description[]"></textarea></td>
-                        <td><input type="number" name="amount[]" /></td>
+                        <td><textarea class="w-100" name="products[0][title]"></textarea></td>
+                        <td><input type="number" name="products[0][price]"></td>
+                        <td><input type="number" name="products[0][amount]"></td>
                         <td><button class="delete-row btn btn-danger btn-sm" onclick="deleteRow(event)">X</button></td>
                     </tr>
                 </tbody>
@@ -49,14 +51,18 @@
 
 @section('javascript')
     <script>
+
+        var product_index = 1;
         function addItem() {
             document.querySelector("tbody").insertAdjacentHTML("beforeend", `
                 <tr>
-                    <td><textarea class="w-75" name="description[]"></textarea></td>
-                    <td><input type="number" name="amount[]" /></td>
+                    <td><textarea class="w-100" name="products[${product_index}][title]"></textarea></td>
+                    <td><input type="number" name="products[${product_index}][price]"></td>
+                    <td><input type="number" name="products[${product_index}][amount]"></td>
                     <td><button class="delete-row btn btn-danger btn-sm" onclick="deleteRow(event)">X</button></td>
                 </tr>
             `);
+            product_index++;
         }
 
         function deleteRow(event) {
@@ -77,13 +83,14 @@
 
             for (let i = 1; i < rows.length; i++) {
                 var cells = rows[i].getElementsByTagName('td');
-                var description = cells[0].querySelector('textarea').value;
-                var amount = cells[1].querySelector('input').value;
-                data.push([description, amount]);
+                var title = cells[0].querySelector('textarea').value;
+                var price = cells[1].querySelector('input').value;
+                var amount = cells[2].querySelector('input').value;
+                data.push([title, price, amount]);
             }
 
             doc.autoTable({
-                head: [["Description", "Amount"]],
+                head: [["Title", "Price", "Amount"]],
                 body: data,
                 startY: 40,
             });

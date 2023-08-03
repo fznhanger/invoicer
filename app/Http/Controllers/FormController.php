@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 
 class FormController extends Controller
 {
     public function allInvoices(Invoice $invoice) {
         $invoices = Invoice::get();
-        return view('allForms', ['invoices' => $invoices]);
+        $products = Product::get();
+        return view('allForms', ['invoices' => $invoices, 'products' => $products]);
     }
 
     public function showForm(Request $request, Invoice $invoice) {
@@ -19,9 +22,16 @@ class FormController extends Controller
             $invoice->invoice_number = $request->invoice_number;
             $invoice->address = $request->address;
             $invoice->date = $request->date;
-            $invoice->description = json_encode($request->description);
-            $invoice->amount = json_encode($request->amount);
             $invoice->save();
+            foreach ($request->products as $received_product) {
+                $product = new Product;
+                $product->invoice_id = $invoice->id;
+                $product->title = $received_product['title'];
+                $product->price = $received_product['price'];
+                $product->amount = $received_product['amount'];
+                $product->timestamps = false;
+                $product->save();
+            }
 
             return redirect('/');
         }
@@ -47,5 +57,12 @@ class FormController extends Controller
         });
  
         return response()->json(['success'=>'Email sent successfully']);
+    }
+
+    public function createPdf(Invoice $invoice) {
+        $products = $invoice->products()->select('title', 'price', 'amount')->get();
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('pdf', ['invoice' => $invoice, 'products' => $products]);
+        return $pdf->stream();
     }
 }
