@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::redirect('/', '/all_invoices');
-Route::get('/all_invoices', [FormController::class, 'allInvoices']);
+Route::redirect('/', '/all-invoices');
+Route::get('/all-invoices', [FormController::class, 'allInvoices']);
 Route::match(['get', 'post'], '/form', [FormController::class, 'showForm']);
 Route::post('/send-email', [FormController::class, 'sendEmail']);
 Route::get('/invoice-pdf/{invoice}', [FormController::class, 'createPdf']);

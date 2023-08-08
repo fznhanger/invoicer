@@ -10,10 +10,8 @@ use Illuminate\Support\Facades\Mail;
 
 class FormController extends Controller
 {
-    public function allInvoices(Invoice $invoice) {
-        $invoices = Invoice::get();
-        $products = Product::get();
-        return view('allForms', ['invoices' => $invoices, 'products' => $products]);
+    public function allInvoices() {
+        return view('allForms', ['invoices' => Invoice::get(), 'products' => Product::get()]);
     }
 
     public function showForm(Request $request, Invoice $invoice) {

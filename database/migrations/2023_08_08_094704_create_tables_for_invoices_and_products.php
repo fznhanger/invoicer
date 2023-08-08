@@ -16,8 +16,15 @@ return new class extends Migration
             $table->string('invoice_number');
             $table->string('address');
             $table->date('date');
-            $table->json('description');
-            $table->json('amount');
+            $table->timestamps();
+        });
+
+        Schema::create('products', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('invoice_id')->references('id')->on('invoices');
+            $table->text('title');
+            $table->unsignedInteger('price');
+            $table->unsignedInteger('amount');
             $table->timestamps();
         });
     }
@@ -28,5 +35,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('invoices');
+        Schema::dropIfExists('products;');
     }
 };

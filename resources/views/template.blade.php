@@ -31,7 +31,7 @@
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
                             <li class="navbar-item">
-                                <a class="nav-link" aria-current="page" href="/all_invoices">All Invoices</a>
+                                <a class="nav-link" aria-current="page" href="/all-invoices">All Invoices</a>
                             </li>
                             <li class="navbar-item">
                                 <a class="nav-link" href="/form">Create</a>
